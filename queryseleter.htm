@@ -1,0 +1,47 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intor of DOM</title>
+    <style>
+        p{
+            color: red ;
+        }
+        h1{
+            color: gold;
+        }
+        #myneed{
+            background-color: aqua;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    
+    <h1>
+        welocome to my web
+    </h1>
+    <p>
+       this are the roles  
+    </p>
+    <button id="myneed">
+        click me 
+    </button>
+    <script>
+        const heading = document.querySelector('h1');
+        const pargf = document.querySelector('p')
+        const button = document.querySelector('#myneed') 
+        pargf.style.color = 'darkred';
+        pargf.textContent = 'you have not floed the roles'
+        console.log(heading)
+
+        button.addEventListener('click', function (){
+            alert('button have ben clicked fu')
+            heading.textContent = 'we'
+        })
+    </script>
+</body>
+</html>
