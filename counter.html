@@ -33,6 +33,15 @@
                 alert('too many items cant be more 10')
             }
         })
+
+        decreasebutton.addEventListener('click',() =>{
+            if(count > 0){
+                count--;
+                conter.textContent = count;
+            }else{
+                alert('you are too low on items add 1 😁😉')
+            }
+        })
     </script>
 </body>
 </html>
