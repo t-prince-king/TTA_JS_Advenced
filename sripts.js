@@ -12,18 +12,34 @@ const displayTasks = () => {
     })
 }
 
+const saveTaskToLAcalStorage = () => {
+
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+
+}
+
 const addTask = () => {
     const newTaskInpunt = document.querySelector('#newtask')
     const newTask =newTaskInpunt.value;
     if(newTask.trim() !== ""){
         tasks.push(newTask);
         newTaskInpunt.value = '';
+        saveTaskToLAcalStorage();
         displayTasks();
     }else{
-        alert('please enter the fucing task');
+        alert('✨please enter the fucing 🐱‍👤 task✨');
     }
 }
 displayTasks();
 const addtaskbutton = document.querySelector('#addtaskbutton');
+
+const loadTasksFromLacalStorage = () => {
+    const storedTasks = localStorage.getItem('tasks');
+    if(storedTasks){
+        tasks = JSON.parse(storedTasks);
+        displayTasks();
+    }
+}
+loadTasksFromLacalStorage();
 addtaskbutton.addEventListener('click', addTask);
 
