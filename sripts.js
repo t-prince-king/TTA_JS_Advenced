@@ -11,7 +11,7 @@ const displayTasks = () => {
     taskDisplay.appendChild(taskItem);
     })
 }
-
+    //this code use too seve to lockstorage\\
 const saveTaskToLAcalStorage = () => {
 
     localStorage.setItem('tasks', JSON.stringify(tasks));
