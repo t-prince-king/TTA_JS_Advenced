@@ -1,4 +1,5 @@
 let tasks = ["Buy milk","Clean the room","Go to the gym"];
+let completedTasks=[];
 
 const displayTasks = () => {
     let taskDisplay = document.querySelector('#taskDisplay');
@@ -15,7 +16,26 @@ const displayTasks = () => {
      const taskLinks = document.createElement('div');
      taskLinks.classList.add('task-links');
 
+     //creat the update and delet 
+     const donelink = document.createElement('a');
+     donelink.href = '#';
+     donelink.textContent = 'done';
+     donelink.textContent = 'mark as done 🎨';
+     donelink.classList.add('text-green-500', 'mr-4');
+     donelink.addEventListener('click', () => markAsdone(index));
+     taskLinks.appendChild(donelink);
      
+ 
+     
+
+     
+     const updateButton = document.createElement('a');
+     updateButton.href = '#';
+     updateButton.textContent = '🔔';
+     updateButton.classList.add('text-blue-500' , 'mr-4');
+     updateButton.addEventListener('click', () => editTask(index));
+     taskLinks.appendChild(updateButton);
+
      const deleteButton = document.createElement('a');
      deleteButton.href = '#';
      deleteButton.textContent = '🗑';
@@ -33,6 +53,7 @@ const displayTasks = () => {
 
 const saveTaskToLocalStorage = () => {
     localStorage.setItem('tasks', JSON.stringify(tasks))
+    localStorage.setItem('completedTasks',JSON.stringify(completedTasks))
 }
 
 const addTask = () => {
@@ -46,17 +67,32 @@ const addTask = () => {
        displayTasks();
     }
     else{
-        alert('Please Fucing enter a task');
+        alert('Please enter a task');
     }
 }
 
 
+const editTask = (index) => {
+    const updatedTask = prompt("Update your task", tasks[index]);
+    if(updatedTask && updatedTask.trim() !== ""){
+        tasks[index] = updatedTask;
+        displayTasks();
+    }
+    else{
 
+    }
+}
 
+const markAsdone = (index) =>{
+   const task = tasks.splice(index,1) [0];
+   completedTasks.push(tasks);
+   saveTaskToLocalStorage();
+   displayTasks();
+}
 
 
 const deleteTask = (index) => {
-  if(confirm('Are you sure you want to delete this task? YOU FUV')){
+  if(confirm('Are you sure you want to delete this task?')){
 tasks.splice(index, 1);
 saveTaskToLocalStorage();
 displayTasks();  
@@ -70,10 +106,19 @@ addTaskButton.addEventListener("click", addTask);
 
 const loadTasksFromStorage = () =>{
 const taskStored = localStorage.getItem('tasks');
+const storedcompletedTasks = localStorage.getItem('completedTasks');
 if (taskStored) {
     tasks = JSON.parse(taskStored);
     displayTasks();
 }
+
+if (storedcompletedTasks) {
+    completedTasks = JSON.parse(storedcompletedTasks);
+    displayTasks();
 }
+
+}
+const addtaskButton = document.querySelector('#addtaskButton');
+addtaskButton.addEventListener('click', addTask);
 loadTasksFromStorage();
 // displayTasks();
