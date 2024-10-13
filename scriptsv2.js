@@ -1,5 +1,5 @@
 let tasks = ["Buy milk","Clean the room","Go to the gym"];
-let completedTasks=[];
+let completeTask=[];
 
 const displayTasks = () => {
     let taskDisplay = document.querySelector('#taskDisplay');
@@ -85,14 +85,53 @@ const editTask = (index) => {
 
 const markAsdone = (index) =>{
    const task = tasks.splice(index,1) [0];
-   completedTasks.push(tasks);
+   completeTask.push(tasks);
    saveTaskToLocalStorage();
    displayTasks();
+   displaycompletedTasks();
+}
+
+const  displaycompleteTask = () => {
+    const completeTaskSection = document.querySelector('#completeTask');
+    const completeTaskDisplay =document.querySelector('#completedTaskDisplay');
+    completeTaskDisplay.innerHTML ='';
+
+    if (completeTask.length > 0) {
+        completeTaskSection.classList.remove('hidden');
+    } else {
+        completeTaskSection.classList.add('hidden');
+    }
+
+    completeTask.forEach((task, index) => {
+        const taskItem = document.createElement('li');
+        taskItem.classList.add('bg-blue-200', 'text-gray-200', 'p-2', 'rounded-lg','flex','justify-between', 'lg:w-[60%]', 'w-[90%]', 'm-auto', 'my-2');
+        
+        const taskText = document.createElement('span');
+        taskText.textContent = task;
+        taskText.classList.add('line-through');
+        taskItem.appendChild(taskText);
+
+        const taskLinks = document.createElement('div');
+        taskLinks.classList.add('task-links');
+
+
+        const gooBackButton = document.createElement('a');
+        gooBackButton.href = '#';
+        gooBackButton.textContent = '📲';
+        gooBackButton.classList.add('text-red-500');
+        gooBackButton.addEventListener('click', () => gooBackButtonCompletedTask(index));
+         taskLinks.appendChild(gooBackButton);
+       
+        taskItem.appendChild(taskLinks);
+        completedTaskDisplay.appendChild(taskItem);
+        
+       
+    })
 }
 
 
 const deleteTask = (index) => {
-  if(confirm('Are you sure you want to delete this task?')){
+  if(confirm('Are you sure you want to delete this task you fuc?')){
 tasks.splice(index, 1);
 saveTaskToLocalStorage();
 displayTasks();  
@@ -114,6 +153,7 @@ if (taskStored) {
 
 if (storedcompletedTasks) {
     completedTasks = JSON.parse(storedcompletedTasks);
+    displaycompletedTasks();
     displayTasks();
 }
 
