@@ -1,33 +1,26 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <title>to do list Applicationn </title>
+    <title>To Do List Application</title>
 </head>
 <body>
+  <div class="container p-4">
+    <h1 class="text-xl font-semibold mb-4">To Do List Application</h1>
+  <ul id="taskDisplay" class="mb-4"></ul>
 
-    <div class="container p-4">
-<h2 class="text-2xl font-semiblod mb-4">
-    to do list application
-</h2>
-<ul id="taskDisplay" class="mb-4">
-</ul>
-
-<div id="completeTask" class="completed-task">
-    <h2 class="text-lg font-semiblod mt-4">
-        completed tasks bic
-    </h2>
+  <div id="completedTasks" class="completed-task">
+    <h2 class="text-lg font-semibold mt-4">Complete Tasks</h2>
     <ul id="completedTaskDisplay"></ul>
-</div>
-
-<input type="text" class="border p-2 mb-2 rounded-lg " id="newTask" placeholder="✨ Enter a New task ✨"><BUtton id="addtaskbutton" class="px-4 py-2 bg-blue-500 text-white rounded-lg">ADD TASK</BUtton>
   </div>
 
+<input id="newTask" class="border p-2 mb-2 rounded-lg" placeholder="Enter a New Task" type="text">
+<button id="addTaskButton" class="px-4 py-2 bg-blue-500 text-white rounded-lg">Add Task</button>
 
-    <!-- <script src="./sripts.js"></script> -->
-    <script src="./scriptsv2.js"></script>
-
-
+  </div>
+    <!-- <script src="./scripts.js"></script> -->
+     <script src="./scriptsV2.js"></script>
 </body>
 </html>

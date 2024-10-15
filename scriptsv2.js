@@ -1,37 +1,38 @@
 let tasks = ["Buy milk","Clean the room","Go to the gym"];
-let completeTask=[];
+let completedTasks = [];
+
 
 const displayTasks = () => {
     let taskDisplay = document.querySelector('#taskDisplay');
     taskDisplay.innerHTML = '';
     tasks.forEach((task, index) => {
+        // create the task container
     const taskItem = document.createElement('li');
     taskItem.classList.add('bg-blue-200', 'p-2', 'm-2', 'rounded-lg','flex','justify-between','list-none');
     
+    // create the task title container
     const taskText = document.createElement('span');
-
+     tasks.sort();
     taskText.textContent = task;
      taskItem.appendChild(taskText);
 
+     // create the task links container
      const taskLinks = document.createElement('div');
      taskLinks.classList.add('task-links');
 
-     //creat the update and delet 
-     const donelink = document.createElement('a');
-     donelink.href = '#';
-     donelink.textContent = 'done';
-     donelink.textContent = 'mark as done 🎨';
-     donelink.classList.add('text-green-500', 'mr-4');
-     donelink.addEventListener('click', () => markAsdone(index));
-     taskLinks.appendChild(donelink);
-     
- 
-     
+     // create the update and delete buttons
 
-     
+     const doneLink = document.createElement('a');
+     doneLink.href = "#";
+     doneLink.textContent = '🎉';
+     doneLink.classList.add('text-green-500','mr-4');
+  doneLink.addEventListener('click', () => markAsDone(index));
+     taskLinks.appendChild(doneLink);
+
+
      const updateButton = document.createElement('a');
      updateButton.href = '#';
-     updateButton.textContent = '🔔';
+     updateButton.textContent = '✒';
      updateButton.classList.add('text-blue-500' , 'mr-4');
      updateButton.addEventListener('click', () => editTask(index));
      taskLinks.appendChild(updateButton);
@@ -52,8 +53,9 @@ const displayTasks = () => {
 }
 
 const saveTaskToLocalStorage = () => {
-    localStorage.setItem('tasks', JSON.stringify(tasks))
-    localStorage.setItem('completedTasks',JSON.stringify(completedTasks))
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
+
 }
 
 const addTask = () => {
@@ -71,67 +73,93 @@ const addTask = () => {
     }
 }
 
+const displayCompletedTasks = () => {
+    const CompletedTasksSection = document.querySelector('#completedTasks');
+    const completedTaskDisplay = document.querySelector('#completedTaskDisplay');
+    completedTaskDisplay.innerHTML = '';
+if (completedTasks.length > 0 ){
+    CompletedTasksSection.classList.remove('hidden'); 
+
+}else {
+    CompletedTasksSection.classList.add('hidden');
+}
+completedTasks.forEach((task,index) => {
+    const taskItem = document.createElement('li');
+    taskItem.classList.add('bg-green-200','p-2','m-2','rounded-lg','flex','justify-between','list-none');
+ 
+    const taskText = document.createElement('span');
+    taskText.textContent = task ;
+    taskText.classList.add('line-through');
+    taskItem.appendChild(taskText);
+
+    const taskLinks = document.createElement('div');
+    taskLinks.classList.add("task-links");
+
+    const undoLink = document.createElement("a");
+    undoLink.href = '#';
+    undoLink.textContent = '🛠';
+    undoLink.addEventListener('click', ()=> undoCompletedTaks(index));
+    undoLink.classList.add('text-blue-500', 'mr-4');
+    taskLinks.appendChild(undoLink);
+
+    const deleteButton = document.createElement("a");
+    deleteButton.href = '#';
+    deleteButton.textContent = "🗑";
+    deleteButton.addEventListener('click', () => deleteCompletedTask(index));
+    deleteButton.classList.add('text-red-500');
+
+    taskLinks.appendChild(deleteButton);
+    taskItem.appendChild(taskLinks);
+    completedTaskDisplay.appendChild(taskItem);
+
+})
+
+
+
+}
+
+const undoCompletedTaks = (index) => {
+const task = completedTasks.splice(index,1)[0];
+tasks.push(task);
+saveTaskToLocalStorage();
+displayTasks();
+displayCompletedTasks();
+}
+
+const deleteCompletedTask = (index) => {
+    if (confirm('Are you sure you want to delete this task')){
+        completedTasks.splice(index,1);
+        saveTaskToLocalStorage();
+        displayCompletedTasks();
+    }
+}
+
+const markAsDone = (index) => {
+    const task = tasks.splice(index,1)[0]; 
+    completedTasks.push(task);
+    saveTaskToLocalStorage();
+    displayTasks();
+    displayCompletedTasks();
+}
+
 
 const editTask = (index) => {
     const updatedTask = prompt("Update your task", tasks[index]);
     if(updatedTask && updatedTask.trim() !== ""){
         tasks[index] = updatedTask;
         displayTasks();
+        saveTaskToLocalStorage();
     }
     else{
 
     }
 }
 
-const markAsdone = (index) =>{
-   const task = tasks.splice(index,1) [0];
-   completeTask.push(tasks);
-   saveTaskToLocalStorage();
-   displayTasks();
-   displaycompletedTasks();
-}
 
-const  displaycompleteTask = () => {
-    const completeTaskSection = document.querySelector('#completeTask');
-    const completeTaskDisplay =document.querySelector('#completedTaskDisplay');
-    completeTaskDisplay.innerHTML ='';
-
-    if (completeTask.length > 0) {
-        completeTaskSection.classList.remove('hidden');
-    } else {
-        completeTaskSection.classList.add('hidden');
-    }
-
-    completeTask.forEach((task, index) => {
-        const taskItem = document.createElement('li');
-        taskItem.classList.add('bg-blue-200', 'text-gray-200', 'p-2', 'rounded-lg','flex','justify-between', 'lg:w-[60%]', 'w-[90%]', 'm-auto', 'my-2');
-        
-        const taskText = document.createElement('span');
-        taskText.textContent = task;
-        taskText.classList.add('line-through');
-        taskItem.appendChild(taskText);
-
-        const taskLinks = document.createElement('div');
-        taskLinks.classList.add('task-links');
-
-
-        const gooBackButton = document.createElement('a');
-        gooBackButton.href = '#';
-        gooBackButton.textContent = '📲';
-        gooBackButton.classList.add('text-red-500');
-        gooBackButton.addEventListener('click', () => gooBackButtonCompletedTask(index));
-         taskLinks.appendChild(gooBackButton);
-       
-        taskItem.appendChild(taskLinks);
-        completedTaskDisplay.appendChild(taskItem);
-        
-       
-    })
-}
 
 
 const deleteTask = (index) => {
-  if(confirm('Are you sure you want to delete this task you fuc?')){
+  if(confirm('Are you sure you want to delete this task?')){
 tasks.splice(index, 1);
 saveTaskToLocalStorage();
 displayTasks();  
@@ -145,20 +173,16 @@ addTaskButton.addEventListener("click", addTask);
 
 const loadTasksFromStorage = () =>{
 const taskStored = localStorage.getItem('tasks');
-const storedcompletedTasks = localStorage.getItem('completedTasks');
+const storedCompletedTasks = localStorage.getItem('completedTasks')
 if (taskStored) {
     tasks = JSON.parse(taskStored);
     displayTasks();
 }
-
-if (storedcompletedTasks) {
-    completedTasks = JSON.parse(storedcompletedTasks);
-    displaycompletedTasks();
-    displayTasks();
-}
+if (storedCompletedTasks) {
+    completedTasks = JSON.parse(storedCompletedTasks);
+    displayCompletedTasks();
 
 }
-const addtaskButton = document.querySelector('#addtaskButton');
-addtaskButton.addEventListener('click', addTask);
+}
 loadTasksFromStorage();
 // displayTasks();
